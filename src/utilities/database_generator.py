@@ -11,7 +11,7 @@ def to_valid_identifier(filename):
     return identifier
 
 
-def generate_typed_dict(folder_name):
+def generate_typed_dict(folder_name, database_name):
     """
     Generates a TypedDict definition and a dictionary for a given folder's files.
     """
@@ -30,7 +30,7 @@ def generate_typed_dict(folder_name):
             print(f"    {key}: str")
 
         # Generate the dictionary
-        print("\nFILE_DICT: FileDict = {")
+        print(f"\n{database_name}" +": FileDict = {")
         for key, value in identifiers.items():
             print(f'    "{key}": "{value}",')
         print("}")
@@ -42,5 +42,5 @@ def generate_typed_dict(folder_name):
 
 
 if __name__ == "__main__":
-    folder_name = input("Enter the folder name: ").strip()
-    generate_typed_dict(os.getcwd() + "/" + folder_name)
+    import sys
+    generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[2]))
