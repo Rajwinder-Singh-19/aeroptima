@@ -38,7 +38,7 @@ def main():
     else:
 
         print("[INFO] -> Creating python environment...")
-        os.system("python -m venv .venv")
+        os.system("python3.13 -m venv .venv")
         print("[INFO] -> Python environment created successfully.")
 
     choice = input("Install Dependencies? [y/n]: ").lower()
