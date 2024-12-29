@@ -20,4 +20,4 @@ def cubic(start, mid_1, mid_2, end, t):
     return cubic
 
 if __name__ == "__main__":
-    start = np.array()
+    pass
