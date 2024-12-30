@@ -1,5 +1,5 @@
 import numpy as np
-from bezier.castigliano import cubic as cb
+from bezier.de_casteljau import cubic as cb
 from scipy.optimize import curve_fit
 from parser.aerofoil import *
 from database.aerofoil_data import UIUC_DATABASE as UDB
