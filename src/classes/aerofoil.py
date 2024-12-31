@@ -19,6 +19,11 @@ class Aerofoil:
         self.upper_coords, self.lower_coords = split_surfaces(self.database_index)
         self.upper_control = get_control_tensor(self.upper_coords, self.n_segments, method)
         self.lower_control = get_control_tensor(self.lower_coords, self.n_segments, method)
+        self.close_curve()
+    
+    def close_curve(self):
+        self.lower_control[0,:,0] = self.upper_control[0,:,0] = np.array([0,0])
+        self.lower_control[-1,:,-1] = self.upper_control[-1,:,-1] = np.array([1,0])
 
     def getUpperCurve(self, points_per_seg):
         self.points_per_seg = points_per_seg
