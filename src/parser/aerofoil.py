@@ -1,13 +1,13 @@
 import numpy as np
 import os
 
-DAT_FILE_PATH = os.getcwd() + "/aerofoil_data/"
+__DAT_FILE_PATH = os.getcwd() + "/aerofoil_data/"
 
 # __all__ = ['getFormat', 'dat2numpy', 'split_surfaces']
 
 
 def getFormat(filename):
-    path = DAT_FILE_PATH + filename
+    path = __DAT_FILE_PATH + filename
     with open(path, "r") as f:
         lines = f.readlines()
 
@@ -18,7 +18,7 @@ def getFormat(filename):
 
 
 def __selig2numpy(filename: str):
-    path = DAT_FILE_PATH + filename
+    path = __DAT_FILE_PATH + filename
     with open(path, "r") as f:
         lines = f.readlines()
 
@@ -36,7 +36,7 @@ def __selig2numpy(filename: str):
 
 
 def __lednicer2numpy(filename: str):
-    path = DAT_FILE_PATH + filename
+    path = __DAT_FILE_PATH + filename
     with open(path, "r") as f:
         lines = f.readlines()
 
