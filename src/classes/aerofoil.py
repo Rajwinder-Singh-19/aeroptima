@@ -27,10 +27,10 @@ ATTRIBUTES
 
 class Aerofoil:
     database_index: UIUCDict
-    upper_coords: np.array
-    lower_coords: np.array
-    upper_control: np.array
-    lower_control: np.array
+    upper_coords: np.ndarray
+    lower_coords: np.ndarray
+    upper_control: np.ndarray
+    lower_control: np.ndarray
     n_segments: int
 
     """
