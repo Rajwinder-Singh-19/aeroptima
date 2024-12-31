@@ -13,8 +13,8 @@ def __residuals(flat_control_points, curve_data):
 def __fit_bezier(curve_data, method):
     P0 = curve_data[0]
     P3 = curve_data[-1]
-    P1 = np.array([0, 0])
-    P2 = np.array([0, 0])
+    P1 = curve_data[len(curve_data) // 3]
+    P2 = curve_data[2 * len(curve_data) // 3]
 
     result = minimize(
         __residuals,
