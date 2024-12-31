@@ -18,6 +18,3 @@ def cubic(start, mid_1, mid_2, end, t):
     lerp_m2_e = lerp(mid_2, end, t)
     cubic = quad(lerp_s_m1, lerp_m1_m2, lerp_m2_e, t)
     return cubic
-
-if __name__ == "__main__":
-    pass
