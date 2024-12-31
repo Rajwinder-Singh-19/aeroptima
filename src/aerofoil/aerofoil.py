@@ -31,19 +31,4 @@ class Aerofoil:
 
 
 if __name__=="__main__":
-    from database.aerofoil_data import UIUC_DATABASE as UDB
-    a18 = Aerofoil(UDB['apex16_NASA_CR_201062_dat'], 5, 'L-BFGS-B')
-    a18.upper_control[2,1,0] = 1.1*a18.upper_control[2,1,0]
-    a18.upper_control = enforce_continuity(a18.upper_control)
-    a18.upper_control[2,1,2] = 1.4*a18.upper_control[2,1,2]
-    a18.upper_control = enforce_continuity(a18.upper_control)
-    upper = a18.getUpperCurve(20)
-    lower = a18.getLowerCurve(20)
-    
-    import matplotlib.pyplot as plt
-    plt.plot(upper[:,0], upper[:,1])
-    plt.plot(lower[:,0], lower[:,1])
-    plt.scatter(a18.upper_control[:,0], a18.upper_control[:,1])
-    plt.xlim((-1, 2))
-    plt.ylim((-1,1))
-    plt.show()
+    pass
