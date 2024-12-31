@@ -1,6 +1,14 @@
+"""
+Contains all the filenames from the aerofoil_data folder
+in the form of a TypedDict dictionary. 
+{key} -> Python legal version of the dat file name
+{value} -> name of the dat file in string format
+"""
+
 from typing import TypedDict
 
-class FileDict(TypedDict):
+
+class UIUCDict(TypedDict):
     _2032c_dat: str
     _30p_30n_dat: str
     a18_dat: str
@@ -1649,7 +1657,12 @@ class FileDict(TypedDict):
     ys930_dat: str
     zv15_35_dat: str
 
-UIUC_DATABASE: FileDict = {
+
+"""
+Saved the UIUC aerofoil data from the folder into a dictionary form
+"""
+
+UIUC_DATABASE: UIUCDict = {
     "_2032c_dat": "2032c.dat",
     "_30p_30n_dat": "30p-30n.dat",
     "a18_dat": "a18.dat",
