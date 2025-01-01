@@ -3,9 +3,8 @@ from parser.aerofoil import *
 from bezier.cubic_spline import *
 from database.aerofoil_data import UIUCDict
 
-"""
-class Aerofoil
-
+class Aerofoil:
+    """
     Objects of this class model an airfoil.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Reads a dat file of the coordinates and interpolates it using a cubic bezier spline
 
 ATTRIBUTES
@@ -23,9 +22,6 @@ ATTRIBUTES
     {n_segments} -> number of bezier curve segments in both upper and lower surfaces. Type(int).
 
 """
-
-
-class Aerofoil:
     database_index: UIUCDict
     upper_coords: np.ndarray
     lower_coords: np.ndarray
@@ -33,10 +29,13 @@ class Aerofoil:
     lower_control: np.ndarray
     n_segments: int
 
-    """
-    def __init__(self, database_index: UIUCDict, n_segments: int, method: str = "L-BFGS-B") -> None
 
-        Default constructor for Aerofoil class.
+
+    def __init__(
+        self, database_index: UIUCDict, n_segments: int, method: str = "L-BFGS-B"
+    ) -> None:
+        """
+    Default constructor for Aerofoil class.
 
     PARAMETERS:
 
@@ -57,13 +56,7 @@ class Aerofoil:
         . 
         .
         naca4421_aerofoil = Aerofoil(UDB['naca4421_dat'], 5, 'L-BFGS-B') # NACA4412 is now available as an Aerofoil class object.
-        
-
     """
-
-    def __init__(
-        self, database_index: UIUCDict, n_segments: int, method: str = "L-BFGS-B"
-    ) -> None:
         self.database_index = database_index
         self.n_segments = n_segments
         self.upper_coords, self.lower_coords = split_surfaces(self.database_index)
@@ -75,12 +68,13 @@ class Aerofoil:
         )
         self.close_curve()
 
-    """
-    def close_curve(self) -> None
 
-        Forces the leading and trailing edge of the aerofoil cubic spline to be closed.
-        It sets the first control point of the first segment of upper and lower beziers to be (0,0),
-        and sets the last control point of the last segment of upper and lower beziers to be (1,0).
+
+    def close_curve(self) -> None:
+        """
+    Forces the leading and trailing edge of the aerofoil cubic spline to be closed.
+    It sets the first control point of the first segment of upper and lower beziers to be (0,0),
+    and sets the last control point of the last segment of upper and lower beziers to be (1,0).
 
     PARAMETERS:
 
@@ -90,32 +84,14 @@ class Aerofoil:
 
         None
     """
-
-    def close_curve(self) -> None:
         self.lower_control[0, :, 0] = self.upper_control[0, :, 0] = np.array([0, 0])
         self.lower_control[-1, :, -1] = self.upper_control[-1, :, -1] = np.array([1, 0])
 
-    """
-    def getUpperCurve(self, points_per_seg: int) -> np.array
 
-        To generate the upper surface cubic bezier spline coordinates
-
-    PARAMETERS:
-
-        points_per_seg -> Number of points in each cubic bezier segment. Type(int).
-
-    RETURNS:
-
-        bezier_spline(self.upper_control, points_per_seg) -> Upper surface (x,y) coordinates calculated from cubic spline interpolation. Type(np.array).
-    """
 
     def getUpperCurve(self, points_per_seg: int) -> np.array:
-        return bezier_spline(self.upper_control, points_per_seg)
-
-    """
-    def getLowerCurve(self, points_per_seg: int) -> np.array
-    
-        To generate the lower surface cubic bezier spline coordinates
+        """
+    To generate the upper surface cubic bezier spline coordinates
 
     PARAMETERS:
 
@@ -123,10 +99,24 @@ class Aerofoil:
 
     RETURNS:
 
-        bezier_spline(self.lower_control, points_per_seg) -> Lower surface (x,y) coordinates calculated from cubic spline interpolation. Type(np.array).
+        bezier_spline(self.upper_control, points_per_seg) -> Upper surface (x,y) coordinates calculated 
+        from cubic spline interpolation. Type(np.array).
     """
+        return bezier_spline(self.upper_control, points_per_seg)
 
     def getLowerCurve(self, points_per_seg: int) -> np.array:
+        """
+    To generate the lower surface cubic bezier spline coordinates
+
+    PARAMETERS:
+
+        points_per_seg -> Number of points in each cubic bezier segment. Type(int).
+
+    RETURNS:
+
+        bezier_spline(self.lower_control, points_per_seg) -> Lower surface (x,y) coordinates calculated 
+        from cubic spline interpolation. Type(np.array).
+    """
         return bezier_spline(self.lower_control, points_per_seg)
 
 
