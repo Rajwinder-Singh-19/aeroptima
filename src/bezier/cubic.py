@@ -37,7 +37,7 @@ def __curve_point(
 
         RETURNS:
 
-            `point` -> Point on the curve that corresponds to the input t value
+            `point` -> Point on the curve that corresponds to the input t value. Type(np.ndarray)
     """
     if len(matrix) != len(matrix[0]):  # characteristic matrix is not valid
         raise TypeError("Only square matrices are allowed as the matrix inputs")
@@ -78,11 +78,11 @@ def cubic_bezier_curve(*control_points: list[np.ndarray], n_points: int) -> np.n
 
             `*control_points` -> List of control points defining the curve. Should have 4 elements. Type(list[np.ndarray])
 
-            `n_points` -> number of curve points to output
+            `n_points` -> number of curve points to output. Type(int)
 
         RETURNS:
 
-            `np.array([__curve_point(ti, BEZIER_MATRIX, control_points) for ti in t])` -> Array of coordinates for the cubic bezier curve
+            `np.array([__curve_point(ti, BEZIER_MATRIX, control_points) for ti in t])` -> Array of coordinates for the cubic bezier curve. Type(np.ndarray)
     """
     control_points = __create_point_matrix(control_points)
     if len(control_points) != 4:

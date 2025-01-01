@@ -1,9 +1,29 @@
+"""
+NOTE
+THIS FILE IS MEANT TO BE EXECUTED FROM THE TERMINAL WITH AEROPTIMA ROOT FOLDER AS THE WORKING DIRECTORY.
+
+PASS THE FOLDERNAME AND DATABASE NAME AS SYSTEM ARGUMENTS IN THE TERMINAL.
+"""
+
+"""
+Creates a database dictionary from the files in a folder.
+"""
+
 import os
 
 
-def to_valid_identifier(filename):
+def __to_valid_identifier(filename: str) -> str:
     """
     Converts a filename to a valid Python identifier.
+
+    PARAMETERS:
+
+        `filename` -> .dat filename of the file. Type(str)
+
+    RETURNS:
+
+        `identifier` -> Converted filename which can be used as an identifier in Python. Type(str)
+
     """
     identifier = filename.replace(" ", "_").replace("-", "_").replace(".", "_")
     if not identifier[0].isalpha():
@@ -11,9 +31,16 @@ def to_valid_identifier(filename):
     return identifier
 
 
-def generate_typed_dict(folder_name, database_name):
+def __generate_typed_dict(folder_name: str, database_name: str) -> None:
     """
     Generates a TypedDict definition and a dictionary for a given folder's files.
+
+    PARAMETERS:
+
+        `folder_name` -> The folder location which is to be converted into a database dictionary. Type(str)
+
+        `database_name` -> Name of the database dictionary. Type(str)
+
     """
     try:
         filenames = [
@@ -21,7 +48,7 @@ def generate_typed_dict(folder_name, database_name):
             for f in os.listdir(folder_name)
             if os.path.isfile(os.path.join(folder_name, f))
         ]
-        identifiers = {to_valid_identifier(f): f for f in filenames}
+        identifiers = {__to_valid_identifier(f): f for f in filenames}
 
         # Generate TypedDict definition
         print("from typing import TypedDict\n")
@@ -30,7 +57,7 @@ def generate_typed_dict(folder_name, database_name):
             print(f"    {key}: str")
 
         # Generate the dictionary
-        print(f"\n{database_name}" +": FileDict = {")
+        print(f"\n{database_name}" + ": FileDict = {")
         for key, value in identifiers.items():
             print(f'    "{key}": "{value}",')
         print("}")
@@ -42,5 +69,7 @@ def generate_typed_dict(folder_name, database_name):
 
 
 if __name__ == "__main__":
+
     import sys
-    generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[2]))
+
+    __generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[2]))
