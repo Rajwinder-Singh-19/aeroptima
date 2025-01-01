@@ -1,9 +1,12 @@
 """
+bezier.cubic
+============
+
 Interpolating a set of points using a cubic bezier curve
 """
 
 import numpy as np
-from database.cached_matrices import *  # contains the characteristic matrices for curve interpolation
+from database.basis_matrices import *  # contains the characteristic matrices for curve interpolation
 
 
 def __create_point_matrix(*points: list[np.ndarray]) -> np.ndarray:

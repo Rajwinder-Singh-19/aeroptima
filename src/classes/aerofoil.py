@@ -1,4 +1,7 @@
 """
+classes.aerofoil
+================
+
 Using cubic bezier splines to model aerofoil shapes
 """
 

@@ -1,4 +1,7 @@
 """
+database.basis_matrices
+=======================
+
 Basis matrices to generate a different types of parametrized curves
 """
 

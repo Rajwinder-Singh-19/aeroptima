@@ -1,4 +1,7 @@
 """
+parsers.aerofoil
+================
+
 Parsers for coordinate .dat files. Only selig and lednicer formats are supported
 """
 

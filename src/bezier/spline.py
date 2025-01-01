@@ -1,4 +1,7 @@
 """
+bezier.spline
+=============
+
 Interpolating shapes using cubic bezier splines
 """
 
@@ -85,7 +88,7 @@ def __split_data(curve_data: np.ndarray, num_segments: int) -> list[np.ndarray]:
     ]
 
 
-def enforce_c0_continuity(control_points: np.ndarray) -> np.ndarray:
+def __enforce_c0_continuity(control_points: np.ndarray) -> np.ndarray:
     """
     Enforces C0 continuity where each segment endpoints are connected.
 
@@ -103,7 +106,7 @@ def enforce_c0_continuity(control_points: np.ndarray) -> np.ndarray:
     return control_points
 
 
-def enforce_c1_continuity(control_points: np.ndarray) -> np.ndarray:
+def __enforce_c1_continuity(control_points: np.ndarray) -> np.ndarray:
     """
     Enforces C1 continuity where each segment endpoint tangents are aligned.
 
@@ -124,7 +127,7 @@ def enforce_c1_continuity(control_points: np.ndarray) -> np.ndarray:
     return control_points
 
 
-def enforce_c2_continuity(control_points: np.ndarray) -> np.ndarray:
+def __enforce_c2_continuity(control_points: np.ndarray) -> np.ndarray:
     """
     Enforces C2 continuity (smooth second derivative) across Bézier curve segments.
 
@@ -154,7 +157,7 @@ def enforce_c2_continuity(control_points: np.ndarray) -> np.ndarray:
     return control_points
 
 
-def enforce_continuity(control_points: np.ndarray) -> np.ndarray:
+def __enforce_continuity(control_points: np.ndarray) -> np.ndarray:
     """
     Wrapper function to enforce C0, C1 and C2 continuity
 
@@ -166,9 +169,9 @@ def enforce_continuity(control_points: np.ndarray) -> np.ndarray:
         `control_points` -> C0, C1 and C2 continuous control points
 
     """
-    control_points = enforce_c0_continuity(control_points)
-    control_points = enforce_c1_continuity(control_points)
-    control_points = enforce_c2_continuity(control_points)
+    control_points = __enforce_c0_continuity(control_points)
+    control_points = __enforce_c1_continuity(control_points)
+    control_points = __enforce_c2_continuity(control_points)
     return control_points
 
 
@@ -200,7 +203,7 @@ def get_control_tensor(
     control_tensor[0, :, 0] = curve_data[0]
     control_tensor[-1, :, -1] = curve_data[-1]
 
-    control_tensor = enforce_continuity(control_tensor)
+    control_tensor = __enforce_continuity(control_tensor)
     return control_tensor
 
 

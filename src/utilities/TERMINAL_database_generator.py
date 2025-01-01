@@ -2,7 +2,7 @@
 NOTE
 THIS FILE IS MEANT TO BE EXECUTED FROM THE TERMINAL WITH AEROPTIMA ROOT FOLDER AS THE WORKING DIRECTORY.
 
-PASS THE FOLDERNAME AND DATABASE NAME AS SYSTEM ARGUMENTS IN THE TERMINAL.
+PASS THE FOLDERNAME AS THE SYSTEM ARGUMENT IN THE TERMINAL.
 """
 
 """
@@ -72,4 +72,4 @@ if __name__ == "__main__":
 
     import sys
 
-    __generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[2]))
+    __generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[1]))
