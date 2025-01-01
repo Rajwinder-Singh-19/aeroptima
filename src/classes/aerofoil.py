@@ -1,11 +1,11 @@
 import numpy as np
 from parser.aerofoil import *
-from bezier.cubic_spline import *
+from bezier.spline import *
 from database.aerofoil_data import UIUCDict
 
 class Aerofoil:
     """
-    Objects of this class model an airfoil.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Reads a dat file of the coordinates and interpolates it using a cubic bezier spline
+Objects of this class model an airfoil.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Reads a dat file of the coordinates and interpolates it using a cubic bezier spline
 
 ATTRIBUTES
 
@@ -119,6 +119,3 @@ ATTRIBUTES
     """
         return bezier_spline(self.lower_control, points_per_seg)
 
-
-if __name__ == "__main__":
-    pass

@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from bezier.characteristic import cubic_bezier_curve
+from bezier.cubic import cubic_bezier_curve
 
 
 def __residuals(flat_control_points, curve_data):
