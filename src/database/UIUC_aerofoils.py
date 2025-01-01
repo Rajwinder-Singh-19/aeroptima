@@ -1,5 +1,5 @@
 """
-Coordinates database of all the available aerofoils 
+Coordinates database of all the aerofoils in the UIUC_aerofoils folder
 """
 
 from typing import TypedDict
