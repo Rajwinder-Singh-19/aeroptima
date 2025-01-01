@@ -1,14 +1,22 @@
 """
-Contains all the filenames from the aerofoil_data folder
-in the form of a TypedDict dictionary. 
-{key} -> Python legal version of the dat file name
-{value} -> name of the dat file in string format
+Coordinates database of all the available aerofoils 
 """
 
 from typing import TypedDict
 
 
 class UIUCDict(TypedDict):
+    """
+    Contains all the filenames from the aerofoil_data folder
+    in the form of a TypedDict dictionary for better dev experience.
+
+    ATTRIBUTES
+
+        key -> Python legal version of the dat file name
+
+        value -> name of the dat file in string format
+    """
+
     _2032c_dat: str
     _30p_30n_dat: str
     a18_dat: str
@@ -1657,10 +1665,6 @@ class UIUCDict(TypedDict):
     ys930_dat: str
     zv15_35_dat: str
 
-
-"""
-Saved the UIUC aerofoil data from the folder into a dictionary form
-"""
 
 UIUC_DATABASE: UIUCDict = {
     "_2032c_dat": "2032c.dat",
@@ -3311,3 +3315,7 @@ UIUC_DATABASE: UIUCDict = {
     "ys930_dat": "ys930.dat",
     "zv15_35_dat": "zv15_35.dat",
 }
+"""
+All the aerofoils publicly available in the UIUC Airfoil Coordinates Database.
+Source: https://m-selig.ae.illinois.edu/ads/coord_database.html
+"""

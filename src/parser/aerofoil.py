@@ -1,9 +1,10 @@
+"""
+Parsers for coordinate dat files. Selig and Lednicer formats are supported
+"""
 import numpy as np
 import os
 
-__DAT_FILE_PATH = os.getcwd() + "/aerofoil_data/"
-
-# __all__ = ['getFormat', 'dat2numpy', 'split_surfaces']
+__DAT_FILE_PATH = os.getcwd() + "/UIUC_aerofoils/" #aerofoils are stored here
 
 
 def getFormat(filename):
