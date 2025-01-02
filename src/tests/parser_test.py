@@ -32,6 +32,7 @@ if __name__ == "__main__":
         label="Lower Data Points",
     )
     plt.legend()
+    plt.title("Split the aerofoil into upper and lower surfaces")
     plt.xlim((-1, 2))
     plt.ylim((-1, 1))
     plt.show()
