@@ -1,4 +1,4 @@
 [project]
 name = "aeroptima"
 version = "0.0.1"
-dependencies = ["openmdao[all]"]
+dependencies = ["openmdao[all]", "mypy"]
