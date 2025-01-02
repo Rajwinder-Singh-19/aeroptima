@@ -3,36 +3,14 @@ if __name__ == "__main__":
     import parser.aerofoil as aeroparse
     import matplotlib.pyplot as plt
 
-    aerofoil_upper_coords, aerofoil_lower_coords = aeroparse.split_surfaces(
-        UDB["a18_dat"]
-    )
+    aerofoil_coords = aeroparse.dat2numpy(UDB["naca001035_dat"])
 
-    plt.plot(
-        aerofoil_upper_coords[:, 0],
-        aerofoil_upper_coords[:, 1],
-        c="blue",
-        label="A18 Upper Surface",
-    )
+    plt.plot(aerofoil_coords[:, 0], aerofoil_coords[:, 1], c="b", label="NACA001035")
     plt.scatter(
-        aerofoil_upper_coords[:, 0],
-        aerofoil_upper_coords[:, 1],
-        c="blue",
-        label="Upper Data Points",
+        aerofoil_coords[:, 0], aerofoil_coords[:, 1], c="b", label="Co-ordinate Points"
     )
-    plt.plot(
-        aerofoil_lower_coords[:, 0],
-        aerofoil_lower_coords[:, 1],
-        c="orange",
-        label="A18 Lower Surface",
-    )
-    plt.scatter(
-        aerofoil_lower_coords[:, 0],
-        aerofoil_lower_coords[:, 1],
-        c="orange",
-        label="Lower Data Points",
-    )
+    plt.title("Aerofoil Co-ordinates")
     plt.legend()
-    plt.title("Split the aerofoil into upper and lower surfaces")
     plt.xlim((-1, 2))
     plt.ylim((-1, 1))
     plt.show()
