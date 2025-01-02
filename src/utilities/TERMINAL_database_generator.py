@@ -1,3 +1,5 @@
+import os
+
 """
 NOTE
 THIS FILE IS MEANT TO BE EXECUTED FROM THE TERMINAL WITH AEROPTIMA ROOT FOLDER AS THE WORKING DIRECTORY.
@@ -8,8 +10,6 @@ PASS THE FOLDERNAME AS THE SYSTEM ARGUMENT IN THE TERMINAL.
 """
 Creates a database dictionary from the files in a folder.
 """
-
-import os
 
 
 def __to_valid_identifier(filename: str) -> str:
@@ -69,7 +69,6 @@ def __generate_typed_dict(folder_name: str, database_name: str) -> None:
 
 
 if __name__ == "__main__":
-
     import sys
 
     __generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[1]))

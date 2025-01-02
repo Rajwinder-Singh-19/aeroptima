@@ -1,7 +1,10 @@
+import os
+import shutil
+
 """
 NOTE
 THIS FILE IS MEANT TO BE EXECUTED FROM THE TERMINAL WITH AEROPTIMA ROOT FOLDER AS THE WORKING DIRECTORY.
-THIS FILE ONLY WORKS AS INTENDED FOR WINDOWS 11 OPERATING SYSTEM. 
+THIS FILE ONLY WORKS AS INTENDED FOR WINDOWS 11 OPERATING SYSTEM.
 
 DO NOT USE FOR LINUX.
 """
@@ -9,21 +12,17 @@ DO NOT USE FOR LINUX.
 """
 Sets up a Python 3.13 environment optinally with all the dependencies for aeroptima.
 """
-import os
 
 os.chdir("../")  # Now the commands will run in root directory as intended
 ENV_PATH = os.getcwd() + "/.venv"
 PIP = os.getcwd() + "/.venv/Scripts/pip.exe"
 # To install dependencies in the environment
 
-import shutil
-
 
 def main():
     valid_choices = ["y", "n"]
 
     if os.path.isdir(ENV_PATH):
-
         print("[WARNING] -> A python environment already exists.")
         choice = input(
             "Do you want to clear and generate a new environment? [y/n]: "
@@ -47,7 +46,6 @@ def main():
                 os.system("code .")
             return
     else:
-
         print("[INFO] -> Creating python environment...")
         os.system("python3.13 -m venv .venv")
         print("[INFO] -> Python environment created successfully.")

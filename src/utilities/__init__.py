@@ -2,7 +2,7 @@
 utilities
 =========
 
-General utilities for faster workflow. 
+General utilities for faster workflow.
 
 Implements:
 

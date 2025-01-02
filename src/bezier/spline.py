@@ -147,9 +147,9 @@ def __enforce_c2_continuity(control_points: np.ndarray) -> np.ndarray:
             0, :, i + 1
         ]  # First control point of the next segment (C0 already enforced)
         p_end = control_points[3, :, i]  # End point of the current segment
-        p_start = control_points[
+        """p_start = control_points[
             1, :, i + 1
-        ]  # Second control point of the next segment
+        ]"""  # Second control point of the next segment
 
         # Adjust the second control point of the next segment for C2 continuity
         control_points[1, :, i + 1] = 2 * p_next - p_prev - (p_end - p_next)

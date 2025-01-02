@@ -4,9 +4,6 @@
 src/aeroptima.egg-info
 src/*/__pycache__
 
-tests
-tests/**
-
 __main___out
 __main_out/**
 

@@ -6,8 +6,8 @@ Using cubic bezier splines to model aerofoil shapes
 """
 
 import numpy as np
-from parser.aerofoil import *
-from bezier.spline import *
+from parser.aerofoil import split_surfaces
+from bezier.spline import get_control_tensor, bezier_spline
 from database.UIUC_aerofoils import UIUCDict
 
 
