@@ -1,9 +1,9 @@
-.venv
+.*
 
 */__pycache__
 */*/__pycache__
 */aeroptima.egg-info
 
-__main___out
+__*
 
 dump
