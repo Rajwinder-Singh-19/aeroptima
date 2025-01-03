@@ -1,6 +1,6 @@
 if __name__ == "__main__":
     from database.UIUC_aerofoils import UIUC_DATABASE as UDB
-    import parser.aerofoil as aeroparse
+    import parser.parsefoil as aeroparse
     import matplotlib.pyplot as plt
 
     aerofoil_coords = aeroparse.dat2numpy(UDB["naca001035_dat"])

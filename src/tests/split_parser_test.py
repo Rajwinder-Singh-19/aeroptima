@@ -1,6 +1,6 @@
 if __name__ == "__main__":
     from database.UIUC_aerofoils import UIUC_DATABASE as UDB
-    import parser.aerofoil as aeroparse
+    import parser.parsefoil as aeroparse
     import matplotlib.pyplot as plt
 
     aerofoil_upper_coords, aerofoil_lower_coords = aeroparse.split_surfaces(

@@ -1,9 +1,9 @@
 if __name__ == "__main__":
     from database.UIUC_aerofoils import UIUC_DATABASE as UDB
-    from classes.aerofoil import Aerofoil
+    from classes.bezierfoil import BezierFoil
     import matplotlib.pyplot as plt
 
-    bambino_6 = Aerofoil(UDB["bambino6_dat"], n_segments=5)
+    bambino_6 = BezierFoil(UDB["bambino6_dat"], n_segments=5)
     bambino_6_upper = bambino_6.getUpperCurve(30)
     bambino_6_lower = bambino_6.getLowerCurve(30)
 

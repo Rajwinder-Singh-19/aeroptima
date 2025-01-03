@@ -6,5 +6,5 @@ Module of classes to model different types of aerodynamic geometries, systems an
 
 Contains 1 sub-module:
 
-1. `aerofoil` containing Aerofoil class to geometrically model an airfoil using cubic bezier splines.
+1. `bezierfoil` containing BezierFoil class to geometrically model an airfoil using cubic bezier splines.
 """

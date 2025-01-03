@@ -1,17 +1,17 @@
 """
-classes.aerofoil
+classes.bezierfoil
 ================
 
 Using cubic bezier splines to model aerofoil shapes
 """
 
 import numpy as np
-from parser.aerofoil import split_surfaces
+from parser.parsefoil import split_surfaces
 from bezier.spline import get_control_tensor, bezier_spline
 from database.UIUC_aerofoils import UIUCDict
 
 
-class Aerofoil:
+class BezierFoil:
     """
     Objects of this class model an aerofoil.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Reads a dat file of the coordinates and interpolates it using a cubic bezier spline
 
