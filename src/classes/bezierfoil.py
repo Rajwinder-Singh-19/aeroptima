@@ -84,7 +84,7 @@ class BezierFoil:
         self.lower_control[0, :, 0] = self.upper_control[0, :, 0] = np.array([0, 0])
         self.lower_control[-1, :, -1] = self.upper_control[-1, :, -1] = np.array([1, 0])
 
-    def getUpperCurve(self, points_per_seg: int) -> np.array:
+    def getUpperCurve(self, points_per_seg: int) -> np.ndarray:
         """
         To generate the upper surface cubic bezier spline coordinates
 
@@ -95,11 +95,11 @@ class BezierFoil:
         RETURNS:
 
             `bezier_spline(self.upper_control, points_per_seg)` -> Upper surface (x,y) coordinates calculated
-            from cubic spline interpolation. Type(np.array).
+            from cubic spline interpolation. Type(np.ndarray).
         """
         return bezier_spline(self.upper_control, points_per_seg)
 
-    def getLowerCurve(self, points_per_seg: int) -> np.array:
+    def getLowerCurve(self, points_per_seg: int) -> np.ndarray:
         """
         To generate the lower surface cubic bezier spline coordinates
 
@@ -110,6 +110,6 @@ class BezierFoil:
         RETURNS:
 
             `bezier_spline(self.lower_control, points_per_seg)` -> Lower surface (x,y) coordinates calculated
-            from cubic spline interpolation. Type(np.array).
+            from cubic spline interpolation. Type(np.ndarray).
         """
         return bezier_spline(self.lower_control, points_per_seg)
