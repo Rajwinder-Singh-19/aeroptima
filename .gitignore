@@ -1,5 +1,5 @@
 .*
-
+*_out
 */__pycache__
 */*/__pycache__
 */aeroptima.egg-info
