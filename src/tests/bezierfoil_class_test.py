@@ -3,42 +3,43 @@ if __name__ == "__main__":
     from classes.bezierfoil import BezierFoil
     import matplotlib.pyplot as plt
 
-    bambino_6 = BezierFoil(UDB["bambino6_dat"], n_segments=5)
-    bambino_6_upper = bambino_6.getUpperCurve(30)
-    bambino_6_lower = bambino_6.getLowerCurve(30)
+    a18 = BezierFoil(UDB['a18_dat'], n_segments=5)
+    a18.close_curve()
+    a18_upper = a18.getUpperCurve(30)
+    a18_lower = a18.getLowerCurve(30)
 
     plt.plot(
-        bambino_6.upper_coords[:, 0],
-        bambino_6.upper_coords[:, 1],
+        a18.upper_coords[:, 0],
+        a18.upper_coords[:, 1],
         c="red",
         label="Original Upper Surface",
     )
     plt.plot(
-        bambino_6.lower_coords[:, 0],
-        bambino_6.lower_coords[:, 1],
+        a18.lower_coords[:, 0],
+        a18.lower_coords[:, 1],
         c="red",
         label="Original Lower Surface",
     )
     plt.plot(
-        bambino_6_upper[:, 0], bambino_6_upper[:, 1], c="blue", label="Upper Bezier"
+        a18_upper[:, 0], a18_upper[:, 1], c="blue", label="Upper Bezier"
     )
     plt.plot(
-        bambino_6_lower[:, 0], bambino_6_lower[:, 1], c="orange", label="Lower Bezier"
+        a18_lower[:, 0], a18_lower[:, 1], c="orange", label="Lower Bezier"
     )
     plt.scatter(
-        bambino_6.upper_control[:, 0],
-        bambino_6.upper_control[:, 1],
+        a18.upper_control[:, 0],
+        a18.upper_control[:, 1],
         c="blue",
         label="Upper Control Points",
     )
     plt.scatter(
-        bambino_6.lower_control[:, 0],
-        bambino_6.lower_control[:, 1],
+        a18.lower_control[:, 0],
+        a18.lower_control[:, 1],
         c="orange",
         label="Lower Control Points",
     )
     plt.legend()
-    plt.title("Bambino 6 Aerofoil Object Visualized")
+    plt.title("A18 Aerofoil Object Visualized")
     plt.xlim((-1, 2))
     plt.ylim((-1, 1))
     plt.show()

@@ -1,4 +1,12 @@
 import openmdao.api as om
+
+
 class Aerofoil(om.ExplicitComponent):
-    def __init__(self):
+    def setup(self):
+        pass
+
+    def setup_partials(self):
+        pass
+
+    def compute(self, inputs, outputs):
         pass
