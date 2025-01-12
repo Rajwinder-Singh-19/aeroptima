@@ -1,7 +1,7 @@
 import openmdao.api as om
 
+
 class Paraboloid(om.ExplicitComponent):
-    
     """
     Dummy class that takes 2 inputs x and y in order to calculate the paraboloid surface f
     """
@@ -30,7 +30,7 @@ class Paraboloid(om.ExplicitComponent):
         RETURNS
             None
         """
-        self.declare_partials("*", "*")
+        self.declare_partials("*", "*", method="fd")
 
     def compute(self, inputs, outputs):
         """
@@ -50,17 +50,25 @@ class Paraboloid(om.ExplicitComponent):
 
 
 if __name__ == "__main__":
-    model = om.Group() # We need to make a group in order to place the subsystems in place
-    model.add_subsystem("Parab", Paraboloid()) # Classes that define a component in the model are placed in model in this way
+    model = (
+        om.Group()
+    )  # We need to make a group in order to place the subsystems in place
+    model.add_subsystem(
+        "Parab", Paraboloid()
+    )  # Classes that define a component in the model are placed in model in this way
 
-    prob = om.Problem(model) # In order to get the models to compute, they need to be placed in a problem construct
-    prob.setup() # Initialize the problem variable
-    prob.set_val("Parab.x", 3.0) # Assign numeric values to the model inputs. Notice the dot operator to signify the subsystem variable
+    prob = om.Problem(
+        model
+    )  # In order to get the models to compute, they need to be placed in a problem construct
+    prob.setup()  # Initialize the problem variable
+    prob.set_val(
+        "Parab.x", 3.0
+    )  # Assign numeric values to the model inputs. Notice the dot operator to signify the subsystem variable
     prob.set_val("Parab.y", -4.0)
 
-    prob.run_model() # Run the calculation
+    prob.run_model()  # Run the calculation
 
-    print(prob["Parab.f"]) # Check the output
+    print(prob["Parab.f"])  # Check the output
 
     prob.set_val("Parab.x", 5.0)
     prob.set_val("Parab.y", -2.0)
