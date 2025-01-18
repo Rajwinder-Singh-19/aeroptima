@@ -66,7 +66,9 @@ class BezierFoil:
         self.lower_control = get_control_tensor(
             self.lower_coords, self.n_segments, method
         )
-
+    def update_control(self, control_list: np.ndarray):
+        pass
+    
     def close_curve(self) -> None:
         """
         Forces the leading and trailing edge of the aerofoil cubic spline to be closed.
@@ -113,3 +115,52 @@ class BezierFoil:
             from cubic spline interpolation. Type(np.ndarray).
         """
         return bezier_spline(self.lower_control, points_per_seg)
+
+    def save_foil(
+        self,
+        aerofoil_header_name: str,
+        save_folder: str,
+        save_filename: str,
+        points_per_seg: int,
+        write_precision: int,
+    ) -> None:
+        """
+        To save the cubic bezier interpolated aerofoil in a .dat file
+
+        PARAMETERS:
+            `aerofoil_header_name` -> The header of the saved file. Typically aerofoil name. Type(str)
+
+            `save_folder` -> The folder inn the current working directory where the file will be saved. Type(str)
+
+            `save_filename` -> Name of the .dat file to be saved. Type(str)
+
+            `write_precision` -> The floating point precision of the co-ordinates in the saved file. Type(int)
+
+            `points_per_seg` -> Number of points in each cubic bezier segment. Type(int).
+
+        RETURNS:
+
+            None
+
+        """
+        upper = self.getUpperCurve(points_per_seg)
+        upper = np.flip(upper, axis=0)
+        lower = self.getLowerCurve(points_per_seg)
+
+        selig_coords = np.vstack((upper, lower))
+
+        import os
+
+        FOLDER_PATH = os.getcwd() + "/" + save_folder
+        FILE_PATH = FOLDER_PATH + "/" + save_filename
+        if not os.path.exists(FOLDER_PATH):
+            os.mkdir(FOLDER_PATH)
+            print(f"{save_folder} created in the current working directory")
+
+        with open(FILE_PATH, "w") as f:
+            f.write(f"{aerofoil_header_name}" + "\n")
+
+            for x, y in selig_coords:
+                f.write(f"{x:.{write_precision}f} {y:.{write_precision}f}\n")
+
+        print(f"{aerofoil_header_name} saved in {FILE_PATH}")
