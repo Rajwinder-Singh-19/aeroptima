@@ -37,7 +37,7 @@ def gen_xfoil_commands(
     """
 
 
-foil = BezierFoil(UDB['tsagi_r3a_dat'], n_segments=10)
+foil = BezierFoil(UDB['a63a108c_dat'], n_segments=10)
 foil.save_foil(
     aerofoil_header_name="BezierFoil",
     save_folder="Foil",
