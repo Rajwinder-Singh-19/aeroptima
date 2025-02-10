@@ -9,6 +9,7 @@ import numpy as np
 from parser.parsefoil import split_surfaces
 from bezier.spline import get_control_tensor, bezier_spline
 from database.UIUC_aerofoils import UIUCDict
+import os
 
 
 class BezierFoil:
@@ -66,9 +67,40 @@ class BezierFoil:
         self.lower_control = get_control_tensor(
             self.lower_coords, self.n_segments, method
         )
-    def update_control(self, control_list: np.ndarray):
-        pass
+        self.pca_components = np.load(os.getcwd() + "/src/database/pca_components.npy")
+        self.mean_airfoil = np.load(os.getcwd() + "/src/database/pca_mean_airfoil.npy")
     
+    def perturb_pca(self, coefficients, freeze_last_n=1):
+
+        # Flatten current shape
+        current_shape = np.concatenate([self.upper_control.flatten(), self.lower_control.flatten()])
+
+        if current_shape.shape[0] != self.mean_airfoil.shape[0]:
+            raise ValueError(f"Shape mismatch: {current_shape.shape} vs {self.mean_airfoil.shape}")
+
+        # Apply PCA perturbations
+        perturbation = sum(coeff * pca_comp for coeff, pca_comp in zip(coefficients, self.pca_components))
+
+        # Prevent modification of the last 'freeze_last_n' segments
+        if freeze_last_n > 0:
+            perturbation[-2 * freeze_last_n:] = 0  # Ensuring trailing edge points remain unchanged
+
+        # Apply perturbation
+        current_shape += perturbation
+
+        # Split back into upper and lower surfaces
+        split_idx = self.upper_control.size
+        perturbed_upper = current_shape[:split_idx].reshape(self.upper_control.shape)
+        perturbed_lower = current_shape[split_idx:].reshape(self.lower_control.shape)
+
+        # Ensure lower surface does not exceed upper surface at each x
+        perturbed_lower = np.minimum(perturbed_lower, perturbed_upper - 1e-5)
+
+        # Assign modified controls
+        self.upper_control = perturbed_upper
+        self.lower_control = perturbed_lower
+
+
     def close_curve(self) -> None:
         """
         Forces the leading and trailing edge of the aerofoil cubic spline to be closed.

@@ -1,4 +1,4 @@
 [project]
 name = "aeroptima"
 version = "0.0.1"
-dependencies = ["openmdao[all]", "PyQt6"]
+dependencies = ["openmdao[all]", "PyQt6", "scikit-learn", "torch", "torchvision", "torchaudio"]

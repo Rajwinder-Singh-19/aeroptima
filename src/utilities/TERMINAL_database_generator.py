@@ -71,4 +71,4 @@ def __generate_typed_dict(folder_name: str, database_name: str) -> None:
 if __name__ == "__main__":
     import sys
 
-    __generate_typed_dict(os.getcwd() + "/" + str(sys.argv[1]), str(sys.argv[1]))
+    __generate_typed_dict(os.getcwd() + "/" + '.TestFoilsPCA', 'PCAFoil')
