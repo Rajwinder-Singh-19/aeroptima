@@ -40,7 +40,12 @@ class BezierFoil:
     n_segments: int
 
     def __init__(
-        self, database_index: UIUCDict, n_segments: int, method: str = "L-BFGS-B"
+        self,
+        database_index: UIUCDict,
+        n_segments: int,
+        pca_components: str,
+        mean_pca_foil: str,
+        method: str = "L-BFGS-B",
     ) -> None:
         """
         Default constructor for Aerofoil class.
@@ -50,6 +55,10 @@ class BezierFoil:
             `database_index` -> Tells which aerofoil to model. Type(str) but recommended to be used with a UIUCDict value.
 
             `n_segments` -> Number of cubic bezier segments. Type(int).
+
+            `pca_components` -> PCA coefficients npy file for perturbation. Type(str).
+
+            `mean_pca_foil` -> Mean npy file of the perturbing dataset. Type(str).
 
             `method` -> The optimization solver to converge the bezier control points,
                       default is Low Memory Broyden-Fletcher-Goldfarb-Shanno solver.
@@ -67,23 +76,34 @@ class BezierFoil:
         self.lower_control = get_control_tensor(
             self.lower_coords, self.n_segments, method
         )
-        self.pca_components = np.load(os.getcwd() + "/src/database/pca_components.npy")
-        self.mean_airfoil = np.load(os.getcwd() + "/src/database/pca_mean_airfoil.npy")
-    
+        self.pca_components = np.load(
+            os.getcwd() + "/src/database/PCA_files/" + f"{pca_components}"
+        )
+        self.mean_airfoil = np.load(os.getcwd() + "/src/database/PCA_files/" + f"{mean_pca_foil}")
+
     def perturb_pca(self, coefficients, freeze_last_n=1):
 
         # Flatten current shape
-        current_shape = np.concatenate([self.upper_control.flatten(), self.lower_control.flatten()])
+        current_shape = np.concatenate(
+            [self.upper_control.flatten(), self.lower_control.flatten()]
+        )
 
         if current_shape.shape[0] != self.mean_airfoil.shape[0]:
-            raise ValueError(f"Shape mismatch: {current_shape.shape} vs {self.mean_airfoil.shape}")
+            raise ValueError(
+                f"Shape mismatch: {current_shape.shape} vs {self.mean_airfoil.shape}"
+            )
 
         # Apply PCA perturbations
-        perturbation = sum(coeff * pca_comp for coeff, pca_comp in zip(coefficients, self.pca_components))
+        perturbation = sum(
+            coeff * pca_comp
+            for coeff, pca_comp in zip(coefficients, self.pca_components)
+        )
 
         # Prevent modification of the last 'freeze_last_n' segments
         if freeze_last_n > 0:
-            perturbation[-2 * freeze_last_n:] = 0  # Ensuring trailing edge points remain unchanged
+            perturbation[-2 * freeze_last_n :] = (
+                0  # Ensuring trailing edge points remain unchanged
+            )
 
         # Apply perturbation
         current_shape += perturbation
@@ -99,7 +119,6 @@ class BezierFoil:
         # Assign modified controls
         self.upper_control = perturbed_upper
         self.lower_control = perturbed_lower
-
 
     def close_curve(self) -> None:
         """

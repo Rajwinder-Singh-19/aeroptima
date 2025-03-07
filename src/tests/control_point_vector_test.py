@@ -16,7 +16,12 @@ def split_upper_lower_control(control_vector: np.ndarray, n_segments: int):
 
 
 start = time.time()
-Foil = BezierFoil(database_index=UDB["atr72sm_dat"], n_segments=2)
+Foil = BezierFoil(
+    database_index=UDB["atr72sm_dat"],
+    n_segments=2,
+    pca_components="NACA/naca_pca_components.npy",
+    mean_pca_foil="NACA/naca_pca_mean_airfoil.npy",
+)
 end = time.time()
 exec_time = end - start
 upper_control = Foil.upper_control

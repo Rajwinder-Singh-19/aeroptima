@@ -12,12 +12,12 @@ from database.UIUC_aerofoils import UIUC_DATABASE as UDB
 from xfoil.analysis import aero_analysis
 
 # Load the dataset
-df = pd.read_csv(os.getcwd() + "/src/database/PCA_perturbed_airfoil_data.csv")
+df = pd.read_csv(os.getcwd() + "/src/database/NACA_PCA_perturbed_nn_dataset.csv")
 df.dropna(inplace=True)
 
-# Extract input (Bezier control points) and output (Cl, Cd, Cl/Cd)
-X = df.iloc[:, :-3].values  # Bezier control points
-y = df.iloc[:, -3:].values  # Cl, Cd, Cl/Cd
+# Extract input (Bezier control points) and output (Cl, Cd)
+X = df.iloc[:, :-2].values  # Bezier control points
+y = df.iloc[:, -2:].values  # Cl, Cd
 
 # Normalize data (Using MinMaxScaler to avoid distorting small values)
 scaler_X = MinMaxScaler()
@@ -26,7 +26,7 @@ X = scaler_X.fit_transform(X)
 y = scaler_y.fit_transform(y)
 
 # Split into train, validation, and test sets
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
 # Convert data to PyTorch tensors
@@ -42,6 +42,21 @@ batch_size = 32
 train_loader = DataLoader(TensorDataset(X_train_tensor, y_train_tensor), batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(TensorDataset(X_val_tensor, y_val_tensor), batch_size=batch_size, shuffle=False)
 
+class BestAirfoilNN(nn.Module):
+    def __init__(self, input_size, output_size):
+        super(BestAirfoilNN, self).__init__()
+        self.model = nn.Sequential(
+            nn.Linear(input_size, 263),
+            nn.BatchNorm1d(263),
+            nn.ReLU(),
+            nn.Dropout(0.10079807725112308),
+            nn.Linear(263, 64),
+            nn.ReLU(),
+            nn.Linear(64, output_size)
+        )
+
+    def forward(self, x):
+        return self.model(x)
 # Define the improved Neural Network
 class AirfoilNN(nn.Module):
     def __init__(self, input_size, output_size):
@@ -64,17 +79,17 @@ class AirfoilNN(nn.Module):
 # Initialize the model
 input_size = X.shape[1]
 output_size = y.shape[1]
-model = AirfoilNN(input_size, output_size)
+model = BestAirfoilNN(input_size, output_size)
 
 # Define loss function and optimizer
-criterion = nn.L1Loss()  # Using MAE (less sensitive to outliers)
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=10, factor=0.5)
+criterion = nn.HuberLoss()  # Using MAE (less sensitive to outliers)
+optimizer = optim.Adam(model.parameters(), lr=0.00001)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=10, factor=0.85)
 
 # Training loop with validation and learning rate adjustment
-num_epochs = 500
+num_epochs = 1000
 best_val_loss = float('inf')
-early_stopping_patience = 20
+early_stopping_patience = 50
 patience_counter = 0
 
 for epoch in range(num_epochs):
@@ -137,10 +152,10 @@ def predict_airfoil(control_points):
     return scaler_y.inverse_transform(prediction)
 
 # Example: Predict aerodynamics for a new shape
-test_foil = BezierFoil(UDB['ah63k127_dat'], 10)
+test_foil = BezierFoil(UDB['a63a108c_dat'], 10)
 test_control = [*test_foil.upper_control, *test_foil.lower_control]
 predicted_aero = predict_airfoil(test_control)
 print("Predicted Cl, Cd, Cl/Cd:", predicted_aero)
 test_foil.save_foil("TestFoil", "Foil", "Foil.dat", 10, 8)
 actual = aero_analysis("Foil", "Foil.dat", 1, 10, 300, 6e6, 10, 1000, 0)
-print("Actual Cl, Cd, Cl/Cd:", actual)
+print("Actual Cl, Cd, Cl/Cd:", actual[0:2])

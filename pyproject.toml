@@ -1,4 +1,27 @@
 [project]
 name = "aeroptima"
 version = "0.0.1"
-dependencies = ["openmdao[all]", "PyQt6", "scikit-learn", "torch", "torchvision", "torchaudio"]
+
+[tool.poetry]
+name = "aeroptima"
+version = "0.0.1"
+description = "Aerodynamic Shape Optimizer based on the OpenMDAO framework"
+authors = ["i.am.rajwinder.19@gmail.com"]
+readme = "README.md"
+packages = [{ include = "aeroptima" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.0"
+openmdao = {extras = ["all"], version = "^3.37.0"}
+PyQt6 = "*"
+scikit-learn = "*"
+torch = { version = "*", source = "pytorch-cu" }
+torchvision = "*"
+torchaudio = "*"
+optuna = "*"
+joblib = "*"
+
+[[tool.poetry.source]]
+name = "pytorch-cu"
+url = "https://download.pytorch.org/whl/cu126"
+priority = "supplemental"
