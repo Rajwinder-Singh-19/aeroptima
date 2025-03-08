@@ -3,10 +3,10 @@ if __name__ == "__main__":
     from classes.bezierfoil import BezierFoil
     import matplotlib.pyplot as plt
 
-    a18 = BezierFoil(UDB['a18_dat'], n_segments=5)
-    a18.close_curve()
-    a18_upper = a18.getUpperCurve(30)
-    a18_lower = a18.getLowerCurve(30)
+    a18 = BezierFoil(UDB['_2032c_dat'], param_method='arc_length', arc_length=0.07)
+    #a18.close_curve()
+    a18_upper = a18.getUpperCurve(5)
+    a18_lower = a18.getLowerCurve(5)
 
     plt.plot(
         a18.upper_coords[:, 0],

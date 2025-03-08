@@ -8,12 +8,13 @@ import os
 
 CSV_PATH = (
     os.getcwd()
-    + "/src/database/NACA_perturbed_dataset/NACA_PCA_perturbed_airfoil_data_seed_griffith30SymSuction_dat.csv"
+    + "/src/database/NACA_perturbed_dataset/NACA_PCA_perturbed_airfoil_data_seed_arad6_dat.csv"
 )
 
 INITIAL_FOIL = BezierFoil(
-    UDB["griffith30SymSuction_dat"],
-    n_segments=10,
+    UDB['arad6_dat'],
+    param_method='arc_length',
+    arc_length=0.1,
     pca_components="NACA/naca_pca_components.npy",
     mean_pca_foil="NACA/naca_pca_mean_airfoil.npy",
 )
@@ -25,20 +26,20 @@ NUM_PERTURBATIONS = 1000
 data = []
 
 INITIAL_FOIL.save_foil("PCA_Foil", "Foil", "Foil.dat", 10, 8)
-(cl, cd) = aero_analysis("Foil", "Foil.dat", 1, 10, 300, 6e6, 10, 1000, 0)[0:2]
+(cl, cd) = aero_analysis("Foil", "Foil.dat", 1, 5, 200, 6e6, 10, 1000, 0, 10)[0:2]
 
 data.append([*INITIAL_FOIL.upper_control.flatten(), cl, cd])
 
 for i in range(NUM_PERTURBATIONS):
     coefficients = np.random.uniform(-PERTURB_SCALE, PERTURB_SCALE, size=5)
     INITIAL_FOIL.perturb_pca(coefficients, 0)
-    INITIAL_FOIL.upper_control = __enforce_continuity(INITIAL_FOIL.upper_control)
-    INITIAL_FOIL.lower_control = __enforce_continuity(INITIAL_FOIL.lower_control)
-    INITIAL_FOIL.close_curve()
+    #INITIAL_FOIL.upper_control = __enforce_continuity(INITIAL_FOIL.upper_control)
+    #INITIAL_FOIL.lower_control = __enforce_continuity(INITIAL_FOIL.lower_control)
+    #INITIAL_FOIL.close_curve()
 
     try:
         INITIAL_FOIL.save_foil("PCA_Foil", "Foil", "Foil.dat", 10, 8)
-        (cl, cd) = aero_analysis("Foil", "Foil.dat", 1, 10, 300, 6e6, 10, 1000, 0, 1)[
+        (cl, cd) = aero_analysis("Foil", "Foil.dat", 1, 10, 200, 6e6, 10, 1000, 0, 2)[
             0:2
         ]
     except:

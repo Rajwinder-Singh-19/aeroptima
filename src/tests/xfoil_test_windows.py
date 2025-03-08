@@ -37,7 +37,7 @@ def gen_xfoil_commands(
     """
 
 
-foil = BezierFoil(UDB['a63a108c_dat'], n_segments=10)
+foil = BezierFoil(UDB['a63a108c_dat'], param_method='arc_length', arc_length = 0.05)
 foil.save_foil(
     aerofoil_header_name="BezierFoil",
     save_folder="Foil",
@@ -52,7 +52,7 @@ if os.path.isfile(os.getcwd() + "/Foil/Dump.dat"):
     os.remove(os.getcwd() + "/Foil/Dump.dat")
 
 start = time.time()
-for i in range(10):
+for i in range(1):
     xfoil_commands = gen_xfoil_commands("Foil", "Foil.dat", 1, 6.2e6, 10, 1000, 0)
     process = subprocess.Popen(
         ["xfoil.exe"],

@@ -32,20 +32,15 @@ class BezierFoil:
 
     """
 
-    database_index: UIUCDict
-    upper_coords: np.ndarray
-    lower_coords: np.ndarray
-    upper_control: np.ndarray
-    lower_control: np.ndarray
-    n_segments: int
-
     def __init__(
         self,
         database_index: UIUCDict,
-        n_segments: int,
-        pca_components: str,
-        mean_pca_foil: str,
+        n_segments: int = 10,
+        arc_length: float = 0.05,
+        pca_components: str = "NACA/naca_pca_components.npy",
+        mean_pca_foil: str = "NACA/naca_pca_mean_airfoil.npy",
         method: str = "L-BFGS-B",
+        param_method: str = "manual",
     ) -> None:
         """
         Default constructor for Aerofoil class.
@@ -56,20 +51,29 @@ class BezierFoil:
 
             `n_segments` -> Number of cubic bezier segments. Type(int).
 
+            `arc_length` -> Length of each segment for Arc-Length Parametrization. Type(float).
+
             `pca_components` -> PCA coefficients npy file for perturbation. Type(str).
 
             `mean_pca_foil` -> Mean npy file of the perturbing dataset. Type(str).
 
             `method` -> The optimization solver to converge the bezier control points,
                       default is Low Memory Broyden-Fletcher-Goldfarb-Shanno solver.
+
+            `param_method` -> Choice of segmentation method: "manual" (fixed n_segments) or "arc_length" (uniform arc-length). Type(str).
+        
         RETURNS:
 
             None
 
         """
         self.database_index = database_index
-        self.n_segments = n_segments
+        self.param_method = param_method
         self.upper_coords, self.lower_coords = split_surfaces(self.database_index)
+        if self.param_method == "arc_length":
+            self.n_segments = self.compute_optimal_segments(arc=arc_length)
+        else:
+            self.n_segments = n_segments
         self.upper_control = get_control_tensor(
             self.upper_coords, self.n_segments, method
         )
@@ -81,6 +85,33 @@ class BezierFoil:
         )
         self.mean_airfoil = np.load(os.getcwd() + "/src/database/PCA_files/" + f"{mean_pca_foil}")
 
+    def compute_optimal_segments(self, arc):
+        """
+        Computes the optimal number of segments based on arc length.
+
+        PARAMETERS:
+
+            `upper` -> Upper surface coordinates. Type(np.ndarray).
+
+            `lower` -> Lower surface coordinates. Type(np.ndarray).
+
+            `arc_length` -> Target segment length (in normalized chord length). Type(float).
+
+        RETURNS:
+
+            `n_segments` -> Number of cubic Bezier segments for both surfaces. Type(int).
+        """
+        def arc_length(coords):
+            return np.sum(np.linalg.norm(np.diff(coords, axis=0), axis=1))
+
+        upper_length = arc_length(self.upper_coords)
+        lower_length = arc_length(self.lower_coords)
+
+        avg_length = (upper_length + lower_length) / 2
+        n_segments = max(4, int(avg_length / arc))  # Ensure minimum of 4 segments
+
+        return n_segments
+    
     def perturb_pca(self, coefficients, freeze_last_n=1):
 
         # Flatten current shape
