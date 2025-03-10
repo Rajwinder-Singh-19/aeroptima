@@ -26,7 +26,8 @@ def generate_aero_dataset(
 ):
     INITIAL_FOIL = BezierFoil(
         seed,
-        n_segments=10,
+        param_method='arc_length',
+        arc_length = 0.1,
         pca_components=pca_components,
         mean_pca_foil=mean_pca_foil,
     )
@@ -105,7 +106,7 @@ def generate_aero_dataset(
 if __name__ == "__main__":
     CSV_PATH = (
         os.getcwd()
-        + "/src/database/NACA_perturbed_dataset/NACA_PCA_perturbed_airfoil_data_seed_griffith30SymSuction_dat.csv"
+        + "/src/database/naca_perturbed_dataset/NACA_PCA_perturbed_airfoil_data_seed_griffith30SymSuction_dat.csv"
     )
     generate_aero_dataset(
         UDB["griffith30SymSuction_dat"],

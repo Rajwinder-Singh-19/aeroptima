@@ -12,7 +12,7 @@ from database.UIUC_aerofoils import UIUC_DATABASE as UDB
 from xfoil.analysis import aero_analysis
 
 # Load the dataset
-df = pd.read_csv(os.getcwd() + "/src/database/NACA_PCA_perturbed_nn_dataset.csv")
+df = pd.read_csv(os.getcwd() + "/src/database/naca_pca_perturbed_nn_dataset.csv")
 df.dropna(inplace=True)
 
 # Extract input (Bezier control points) and output (Cl, Cd)

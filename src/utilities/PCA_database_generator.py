@@ -2,9 +2,9 @@ import numpy as np
 import os
 from multiprocessing import Pool, cpu_count
 from classes.bezierfoil import BezierFoil
-from database.PCA_aerofoils import NACAFoil as NF
+from database.pca_aerofoils import NACAFoil as NF
 
-DATASET_PATH = os.getcwd() + "/src/database/PCA_files/NACA/NACA_bezier_controls.npy"
+DATASET_PATH = os.getcwd() + "/src/database/pca_files/naca/naca_bezier_controls.npy"
 N_SEGMENTS = 10
 
 

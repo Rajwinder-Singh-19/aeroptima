@@ -36,9 +36,9 @@ class BezierFoil:
         self,
         database_index: UIUCDict,
         n_segments: int = 10,
-        arc_length: float = 0.05,
-        pca_components: str = "NACA/naca_pca_components.npy",
-        mean_pca_foil: str = "NACA/naca_pca_mean_airfoil.npy",
+        arc_length: float = 0.1,
+        pca_components: str = "naca/naca_pca_components.npy",
+        mean_pca_foil: str = "naca/naca_pca_mean_airfoil.npy",
         method: str = "L-BFGS-B",
         param_method: str = "manual",
     ) -> None:
@@ -81,9 +81,9 @@ class BezierFoil:
             self.lower_coords, self.n_segments, method
         )
         self.pca_components = np.load(
-            os.getcwd() + "/src/database/PCA_files/" + f"{pca_components}"
+            os.getcwd() + "/src/database/pca_files/" + f"{pca_components}"
         )
-        self.mean_airfoil = np.load(os.getcwd() + "/src/database/PCA_files/" + f"{mean_pca_foil}")
+        self.mean_airfoil = np.load(os.getcwd() + "/src/database/pca_files/" + f"{mean_pca_foil}")
 
     def compute_optimal_segments(self, arc):
         """
