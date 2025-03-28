@@ -87,7 +87,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.00001)
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=10, factor=0.85)
 
 # Training loop with validation and learning rate adjustment
-num_epochs = 1000
+num_epochs = 500
 best_val_loss = float('inf')
 early_stopping_patience = 50
 patience_counter = 0
@@ -152,7 +152,7 @@ def predict_airfoil(control_points):
     return scaler_y.inverse_transform(prediction)
 
 # Example: Predict aerodynamics for a new shape
-test_foil = BezierFoil(UDB['a63a108c_dat'], 10)
+test_foil = BezierFoil(UDB['ah63k127_dat'], 10)
 test_control = [*test_foil.upper_control, *test_foil.lower_control]
 predicted_aero = predict_airfoil(test_control)
 print("Predicted Cl, Cd, Cl/Cd:", predicted_aero)

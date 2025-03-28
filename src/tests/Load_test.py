@@ -9,7 +9,7 @@ from bezier.spline import __enforce_continuity
 kriging_model = joblib.load(os.getcwd()+"/GPR_models/gpr_3000.pkl")
 
 
-TEST_FOIL = BezierFoil(UDB['davis_corrected_dat'], 10)
+TEST_FOIL = BezierFoil(UDB['a63a108c_dat'], 10)
 TEST_FOIL.upper_control = __enforce_continuity(TEST_FOIL.upper_control)
 TEST_FOIL.lower_control = __enforce_continuity(TEST_FOIL.lower_control)
 TEST_FOIL.close_curve()
